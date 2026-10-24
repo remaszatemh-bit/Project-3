@@ -1,0 +1,23 @@
+﻿{% extends "auctions/layout.html" %} {% block body %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h2 class="mb-0 fw-bold">{{ category.name }}</h2>
+    <small class="text-muted"
+      >Category &middot; {{ listings|length }} active item{{
+      listings|length|pluralize }}</small
+    >
+  </div>
+  <a href="{% url 'categories' %}" class="btn btn-outline-secondary btn-sm"
+    >&larr; All Categories</a
+  >
+</div>
+
+{% if listings %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+  {% for listing in listings %} {% include "auctions/_listing_card.html" %} {% endfor %}
+</div>
+{% else %}
+<div class="text-center text-muted py-5 border rounded-3 bg-white">
+  <p class="mb-0">No active listings in this category.</p>
+</div>
+{% endif %} {% endblock %}

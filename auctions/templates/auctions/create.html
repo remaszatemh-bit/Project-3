@@ -1,0 +1,151 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<div class="create-wrap">
+  <div class="mb-4 text-center">
+    <h2 class="fw-bold mb-1">Create Listing</h2>
+    <small class="text-muted">Put a new item up for auction</small>
+  </div>
+
+  <div class="card form-card create-card shadow-sm">
+    <div class="card-body p-4 p-md-5">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            maxlength="64"
+            placeholder="e.g. Vintage film camera"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold" for="description"
+            >Description</label
+          >
+          <textarea
+            class="form-control"
+            id="description"
+            name="description"
+            rows="3"
+            placeholder="Describe the item's condition, features and details"
+            required
+          ></textarea>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="starting_bid"
+              >Starting Bid ($)</label
+            >
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input
+                type="number"
+                step="0.01"
+                min="0.01"
+                class="form-control"
+                id="starting_bid"
+                name="starting_bid"
+                placeholder="0.00"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="category"
+              >Category (optional)</label
+            >
+            <select class="form-select" id="category" name="category">
+              <option value="">-- No category --</option>
+              {% for cat in categories %}
+              <option value="{{ cat.id }}">{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 mb-4">
+          <label class="form-label fw-semibold">Product Image (optional)</label>
+          <p class="text-muted small mb-2">
+            Choose one: upload an image from your device, or paste an image link.
+          </p>
+
+          <div class="mb-3">
+            <label class="form-label small" for="image_file"
+              >Upload from your device</label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="image_file"
+              name="image_file"
+              accept="image/*"
+            />
+            <img
+              id="preview"
+              class="img-thumbnail mt-2 d-none"
+              style="max-height: 160px"
+              alt="Preview"
+            />
+          </div>
+
+          <div class="text-center text-muted small my-2">&mdash; or &mdash;</div>
+
+          <div>
+            <label class="form-label small" for="image_url"
+              >Paste an image URL</label
+            >
+            <input
+              type="url"
+              class="form-control"
+              id="image_url"
+              name="image_url"
+              placeholder="https://example.com/photo.jpg"
+            />
+          </div>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Create Listing
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var f = document.getElementById("image_file");
+    var u = document.getElementById("image_url");
+    var p = document.getElementById("preview");
+
+    function show(src) {
+      if (!src) {
+        p.classList.add("d-none");
+        p.removeAttribute("src");
+        return;
+      }
+      p.src = src;
+      p.classList.remove("d-none");
+    }
+
+    f.addEventListener("change", function () {
+      if (f.files && f.files[0]) {
+        show(URL.createObjectURL(f.files[0]));
+        u.value = ""; // uploaded file takes priority
+      }
+    });
+
+    u.addEventListener("input", function () {
+      if (u.value) {
+        f.value = ""; // URL takes priority
+        show(u.value);
+      } else {
+        show(null);
+      }
+    });
+  })();
+</script>
+{% endblock %}

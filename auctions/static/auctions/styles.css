@@ -1,0 +1,352 @@
+:root {
+    --card-radius: .75rem;
+    --card-border: #e3e6ea;
+}
+
+body {
+    background-color: #f5f6f8;
+}
+
+/* ---- Unified product cards ---- */
+.row > .col {
+    display: flex;
+}
+
+.listing-card {
+    width: 100%;
+    height: 440px;              /* every card is exactly the same size */
+    display: flex;
+    flex-direction: column;
+    position: relative;         /* anchor for the quick-remove button */
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, .12);
+}
+
+.listing-card .card-img-link {
+    display: block;
+    flex: 0 0 auto;
+}
+
+/* fixed-ratio image box so every thumbnail lines up, whatever the source size */
+.listing-card .card-img-wrap {
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    width: 100%;
+    flex: 0 0 200px;
+    background-color: #eef1f4;
+    overflow: hidden;
+}
+
+.listing-card .card-img-wrap img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform .3s ease;
+}
+
+.listing-card:hover .card-img-wrap img {
+    transform: scale(1.05);
+}
+
+.listing-card .card-img-wrap svg {
+    width: 100%;
+    height: 200px;
+    display: block;
+}
+
+.listing-card .card-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.listing-card .card-title a {
+    color: #212529;
+    text-decoration: none;
+}
+
+.listing-card .card-title a:hover {
+    color: #0d6efd;
+}
+
+/* clamp long titles/descriptions to keep every card identical */
+.listing-card .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* price + status row, always directly above the buttons */
+.listing-card .card-meta {
+    min-height: 2rem;
+    margin-bottom: .75rem;
+}
+
+/* action buttons share one horizontal line at the bottom of every card */
+.listing-card .card-actions {
+    display: flex;
+    gap: .5rem;
+    align-items: stretch;
+    margin-top: auto;
+    padding-top: .75rem;
+    border-top: 1px solid #f0f2f5;
+}
+
+.listing-card .card-actions .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* ---- Quick remove button (watchlist cards) ---- */
+.card-remove {
+    position: absolute;
+    top: .6rem;
+    right: .6rem;
+    z-index: 3;
+    margin: 0;
+}
+
+.card-remove-btn {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(33, 37, 41, .65);
+    color: #fff;
+    font-size: 1.15rem;
+    line-height: 1;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transform: scale(.85);
+    transition: opacity .18s ease, transform .18s ease, background .18s ease;
+}
+
+.listing-card:hover .card-remove-btn,
+.card-remove-btn:focus-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.card-remove-btn:hover {
+    background: #dc3545;
+}
+
+@media (hover: none) {
+    /* touch devices have no hover: keep the remove button visible */
+    .card-remove-btn {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---- Mobile: let cards size to content ---- */
+@media (max-width: 575.98px) {
+    .listing-card {
+        height: auto;
+    }
+}
+
+.price-tag {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #198754;
+}
+
+/* ---- Detail page ---- */
+.detail-image {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: var(--card-radius);
+    background-color: #eef1f4;
+}
+
+.current-price-box {
+    background: #e8f5ee;
+    border: 1px solid #b7e2c9;
+    border-radius: var(--card-radius);
+    padding: 1rem 1.25rem;
+}
+
+.comment-card {
+    border: 1px solid var(--card-border);
+    border-radius: .6rem;
+    background: #fff;
+}
+
+/* ---- Forms ---- */
+.form-card {
+    max-width: 620px;
+    margin: 0 auto;
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+}
+
+/* centered, compact create-listing form */
+.create-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.create-card {
+    max-width: 100%;
+    border-radius: 1rem;
+}
+
+.create-card .input-group-text {
+    background: #f5f6f8;
+    color: #6c757d;
+}
+
+.create-card .form-control,
+.create-card .form-select {
+    border-radius: .5rem;
+}
+
+.create-card .input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.create-card .input-group .input-group-text {
+    border-radius: .5rem 0 0 .5rem;
+}
+
+.create-card .form-control:focus,
+.create-card .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .12);
+}
+
+.bid-card {
+    max-width: 420px;
+}
+
+/* ---- Category cards ---- */
+.category-card {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: 1rem;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--card-border);
+    background: #fff;
+    color: #212529;
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.category-card:hover {
+    border-color: #0d6efd;
+    color: #212529;
+    transform: translateY(-3px);
+    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .08);
+}
+
+.category-icon {
+    flex: 0 0 auto;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    line-height: 1;
+    border-radius: .7rem;
+    background: #f1f4f9;
+}
+
+.category-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.category-name {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-count {
+    font-size: .8rem;
+    color: #6c757d;
+}
+
+.category-arrow {
+    color: #adb5bd;
+    transition: transform .18s ease, color .18s ease;
+}
+
+.category-card:hover .category-arrow {
+    color: #0d6efd;
+    transform: translateX(-3px);
+}
+
+@media (max-width: 575.98px) {
+    .category-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.3rem;
+    }
+
+    .category-count {
+        font-size: .72rem;
+    }
+}
+
+/* ---- Legacy category pills (kept for compatibility) ---- */
+.category-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--card-border);
+    background: #fff;
+    color: #212529;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all .18s ease;
+}
+
+.category-pill:hover {
+    border-color: #0d6efd;
+    background: #0d6efd;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.category-pill .badge {
+    background: #eef1f4;
+    color: #495057;
+}
+
+.category-pill:hover .badge {
+    background: rgba(255, 255, 255, .25);
+    color: #fff;
+}
